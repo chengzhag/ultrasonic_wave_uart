@@ -29,8 +29,9 @@ int main(void)
     while(1)
     {
 		sonic.trig();
+		delay_ms(100);
 		uart1.printf("%d\n", sonic.read());
-		//delay_ms(1000);
+		
     }
 
 }

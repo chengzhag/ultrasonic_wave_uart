@@ -14,55 +14,19 @@ class UltrasonicWaveUart
 public:
 
     //构造函数，确定Uart
-    UltrasonicWaveUart(Uart *uartX):
-    uart(uartX),
-    dis(0),
-    isHigh(true),
-    isReady(false)
-    {
-
-    }
+    UltrasonicWaveUart(Uart *uartX);
 
     //初始化函数，初始化uart口
-    void begin()
-    {
-        uart->begin(9600);
-        uart->attach(this,&UltrasonicWaveUart::rxEvent,RxIrq);
-    }
+    void begin();
 
     //uart字节处理中断函数
-    void rxEvent()
-    {
-        if(isHigh)
-        {
-            isHigh=false;
-            uint8_t c = uart->read();
-            dis=c*256;
-        }
-        else
-        {
-            isHigh=true;
-            uint8_t c = uart->read();
-            dis=dis+c;
-            isReady=true;
-        }
-    }
+    void rxEvent();
 
     //基于忙等的read函数
-    uint16_t read()
-    {
-        while(!isReady)
-        {
-        }
-        isReady=false;
-        return dis;
-    }
+    uint16_t read();
 
     //发送触发指令，开始测距
-    void trig()
-    {
-        uart->write(0x55);
-    }
+    void trig();
 };
 
 
